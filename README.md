@@ -1,4 +1,4 @@
-# run_tracking_personal_project
+# run tracking personal project
 
 CRUD: Users will have the ability to Post a run, Edit/Put a previous run post(either based on the date ran or id), Allow for users to delete runs within a specific Run Model. Users will have the ability to Set/Post Goals specific distance, Edit/Put Goals per specific distance, as well as delete goals from specifc Goal Model. The Goals model will have the ability to interact with that specifc Run(Run model) based upon UserID Strech Goal is for a user to choose a specific training plan (5k,10k,half, full marathon) then give them a templeted training plan.
 
