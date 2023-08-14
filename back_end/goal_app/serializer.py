@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Goal
 
-class RunSerializer(serializers.ModelSerializer):
+class GoalSerializer(serializers.ModelSerializer):
     user_name = serializers.SerializerMethodField()
 
     def get_user_name(self, obj):
@@ -11,4 +11,4 @@ class RunSerializer(serializers.ModelSerializer):
         return None
     class Meta:
         model = Goal
-        fields = ['id', 'distance', 'time', 'user_name']
+        fields = ['id', 'distance', 'time', 'user_name'] #__all
