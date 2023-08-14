@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Race
 
-class RunSerializer(serializers.ModelSerializer):
+class RaceSerializer(serializers.ModelSerializer):
     user_name = serializers.SerializerMethodField()
 
     def get_user_name(self, obj):
@@ -11,7 +11,7 @@ class RunSerializer(serializers.ModelSerializer):
         return None
     class Meta:
         model = Race
-        fields = ['id','name', 'distance', 'city', 'state', 'zipcode', 'user_name', 'url', 'next_end_date']
+        fields = ['id','name', 'distance', 'city','race_id', 'state', 'zipcode', 'user_name', 'url', 'next_end_date']
 
 
       
