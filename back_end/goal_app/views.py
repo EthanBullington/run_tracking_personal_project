@@ -20,7 +20,7 @@ class Goals(Token_auth):
 
     def get(self , request):
         goal = get_object_or_404(Goal, user = request.user )
-        s_goal = GoalSerializer(goal, many = True)
+        s_goal = GoalSerializer(goal)
         return Response(s_goal.data, status=HTTP_200_OK)
     
     def post(self, request):

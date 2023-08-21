@@ -1,23 +1,23 @@
 import { useContext, useEffect, useRef, useState } from "react";
+import { UserRace } from "../components/UserRaces";
 import { userContext } from "../App";
 import { api } from "../utilities";
 
 
 export const HomePage = () => {
-  const { user} = useContext(userContext);
-  const [goalDistance, setGoalDistance] = useState('')
-  const [goalTime, setGoalTime] = useState('')
+  const { user, setLoggedIn, setHome, home, goalTime, setGoalTime, goalDistance, setGoalDistance, i, setI, minutesToTimeFormat} = useContext(userContext);
   const [goalPace, setGoalPace] = useState('')
   const [runPace, setRunPace] = useState('')
   const [runTime, setRunTime] = useState('')
   const [runDistance, setRunDistance] = useState('')
   const [runDate, setRunDate] = useState('')
-  const [raceUrl, setRaceUrl] = useState('')
-  const [raceName, setRaceName] = useState('')
-  const [raceDate, setRaceDate] = useState('')
+  const [userRaces, setUserRaces] = useState([])
   const [errorMsg, setErrorMsg] = useState('')
   const isRender = useRef(false)
-  
+
+  useEffect(()=>{
+    setHome(home+1)
+  }, [])
 
   useEffect(() => {
     if (isRender.current) {
@@ -30,8 +30,10 @@ export const HomePage = () => {
                 const [hours, minutes, seconds] = goalTime.split(":");
                 const goalTimeInMinutes = (parseInt(hours) * 60) + parseInt(minutes) + (parseInt(seconds) / 60);
                 const goalPace = (goalTimeInMinutes / goalDistance).toFixed(2);
-                setGoalPace(goalPace);
+                const goalPaceTime = minutesToTimeFormat(goalPace)
+                setGoalPace(goalPaceTime);
                 setErrorMsg('');
+                setI(i+1)
             })
             .catch((error) => {
                 if (error.response && error.response.status === 404) {
@@ -61,7 +63,8 @@ export const HomePage = () => {
             const [hours, minutes, seconds] = runTime.split(":");
             const runTimeInMinutes = (parseInt(hours) * 60) + parseInt(minutes) + (parseInt(seconds) / 60);
             const runPace = (runTimeInMinutes/runDistance).toFixed(2)
-            setRunPace(runPace)
+            const runPaceTime = minutesToTimeFormat(runPace)
+            setRunPace(runPaceTime)
             } 
         })
     }
@@ -71,14 +74,10 @@ export const HomePage = () => {
     if (isRender.current){
     api.get("races/user/")
     .then((response) => {
-    //    console.log(response.data)
        const latestrace = response.data
-       if (latestrace.length > 0) {
-        setRaceDate(latestrace[0].next_end_date)
-       setRaceName(latestrace[0].name)
-       setRaceUrl(latestrace[0].url)
+        setUserRaces(latestrace)
        }
-      })
+      )
     }else {
         isRender.current = true
     }
@@ -89,7 +88,6 @@ export const HomePage = () => {
     <div>
       <h1>Welcome {user ? user.display_name : null}</h1>
     </div>
-    {/* <div id="weatherapi-weather-widget-1"></div> */}
     <div>
     Goals
             {goalDistance.length !== 0 ? (
@@ -112,13 +110,13 @@ export const HomePage = () => {
     </div>
     <div>
     Upcoming Race
-    {raceName.length !== 0 ? (
-                <div>
-                    <div>Race Name {raceName} | Race URL {raceUrl} | Race Date {raceDate}</div>
-                </div>
-            ) : (
-                <p>{errorMsg}</p>
-            )}
+    {userRaces.length !== 0 ? (
+        userRaces.map((race, index) => (
+            <UserRace key={index} race={race} />
+        ))
+    ) : (
+        <p>{errorMsg ? errorMsg : "No races available."}</p>
+    )}
     </div>
     </>
   );

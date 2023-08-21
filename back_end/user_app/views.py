@@ -40,7 +40,7 @@ class Log_in(APIView):
         runner = authenticate(username=email, password=password)
         if runner:
             token, created = Token.objects.get_or_create(user=runner)
-            return Response({"token": token.key, "Runner": runner.email})
+            return Response({"token": token.key, "email": runner.email})
         else:
             return Response("No runner matching credentials", status=HTTP_404_NOT_FOUND)
 
@@ -48,7 +48,7 @@ class Log_in(APIView):
 class Info(Token_auth):
     
     def get(self, request):
-        return Response({"email": request.user.email, "zipcode": request.user.zipcode, "display_name":request.user.display_name})
+        return Response({"email": request.user.email, "state": request.user.state, "display_name":request.user.display_name, "total_distance":request.user.total_distance, "total_time":request.user.total_time})
 
 class Log_out(Token_auth):
     

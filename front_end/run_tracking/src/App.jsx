@@ -9,7 +9,22 @@ export const userContext = createContext();
 function App() {
   const [user, setUser] = useState(null);
   const [loggedIn, setLoggedIn]= useState(false);
+  const [home, setHome] = useState(0)
+  const [goalDistance, setGoalDistance] = useState('')
+  const [goalTime, setGoalTime] = useState('')
+  const [i, setI] = useState(0)
   const navigate = useNavigate()
+
+  function minutesToTimeFormat(minutes) {
+    const hours = Math.floor(minutes / 60);
+    const minutesRemainder = minutes % 60;
+    const minutesLeft = Math.floor(minutesRemainder)
+    const seconds = Math.round((minutesRemainder - minutesLeft) * 60);
+
+    
+    const timeStr = `${String(hours).padStart(2, '0')}:${String(minutesLeft).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    return timeStr;
+}
 
 
   const whoAmI = async() => {
@@ -27,13 +42,16 @@ function App() {
   }
   useEffect(()=>{
     whoAmI()
-  }, [loggedIn])
+  }, [loggedIn,home])
 
   const logOut = async() => {
     let response = await api.post('users/logout/')
     if (response.status === 204){
       localStorage.removeItem("token")
       setUser(null)
+      setI(0)
+      setGoalDistance('')
+      setGoalTime('')
       delete api.defaults.headers.common["Authorization"]
       navigate("/login")
     }
@@ -46,7 +64,10 @@ function App() {
         <nav>
           {user ?
             <>
-              <Link to="/home">Home</Link>
+              <Link to="/home" >Home</Link>
+              <Link to="/goals">Goals</Link>
+              <Link to="/runs">Runs</Link>
+              <Link to="/races">Races</Link>
               <button onClick={logOut}>Log out</button>
             </>
             : <>
@@ -56,7 +77,7 @@ function App() {
           }
         </nav>
       </header>
-      <userContext.Provider value={{ user, setUser, setLoggedIn }}>
+      <userContext.Provider value={{ user, setUser, setLoggedIn, setHome, home, goalDistance, setGoalDistance, goalTime, setGoalTime, i, setI , minutesToTimeFormat }}>
         <Outlet />
       </userContext.Provider>
     </div>
