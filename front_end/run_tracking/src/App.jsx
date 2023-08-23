@@ -1,5 +1,4 @@
 import { useEffect, useState} from "react";
-import "./App.css";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { createContext } from "react";
 import { api } from "./utilities";
@@ -59,20 +58,20 @@ function App() {
 
   return (
     <>
-     <div id="app">
-      <header>
-        <nav>
+     <div id="app" className="w-screen h-screen bg-center bg-cover bg-[url('https://blogstudio.s3.amazonaws.com/kryjer1/f1be045fd9a22f7bb2ef2f838e503762.jpg')]">
+      <header >
+        <nav className="border-2 sticky border-black text-center underline flex justify-evenly bg-red-500">
           {user ?
             <>
-              <Link to="/home" >Home</Link>
-              <Link to="/goals">Goals</Link>
-              <Link to="/runs">Runs</Link>
-              <Link to="/races">Races</Link>
-              <button onClick={logOut}>Log out</button>
+              <Link className=" hover:text-gray-600" to="/home" >Home</Link>
+              <Link className=" hover:text-gray-600" to="/goals">Goals</Link>
+              <Link className=" hover:text-gray-600" to="/runs">Runs</Link>
+              <Link className=" hover:text-gray-600" to="/races">Races</Link>
+              <button className=" hover:text-gray-600" onClick={logOut}>Log out</button>
             </>
             : <>
-              <Link to="/">Register</Link>
-              <Link to="/login">Log In</Link>
+              <Link className=" hover:text-gray-600" to="/">Register</Link>
+              <Link className=" hover:text-gray-600" to="/login">Log In</Link>
             </>
           }
         </nav>
