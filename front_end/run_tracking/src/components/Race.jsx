@@ -28,7 +28,7 @@ export const Race = ({race}) => {
 
     return(
         <div>
-        <p>{race.race.name} | {race.race.next_date} | {race.race.url} | <button disabled={userAdded} onClick={addRun}>Add Race</button></p>
+        <p>{race.race.name} | {race.race.next_date} | {race.race.url} | <button className="border-2 p-1 bg-white border-black rounded hover:bg-gray-400 disabled:bg-slate-950 disabled:text-white disabled:border-gray-600" disabled={userAdded} onClick={addRun}>Add Race</button></p>
         </div>
     )
 }
