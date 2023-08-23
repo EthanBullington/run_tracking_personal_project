@@ -4,6 +4,7 @@ import { userContext } from "../App";
 import { api } from "../utilities";
 import axios from "axios";
 
+
 export const HomePage = () => {
   const {
     user,
@@ -35,11 +36,12 @@ export const HomePage = () => {
     setHome(home + 1);
   }, []);
 
+  
   const weatherZipcode = async (e) => {
     e.preventDefault();
     try {
       let response = await axios.get(
-        `http://api.openweathermap.org/geo/1.0/zip?zip=${zipcode},US&appid=883d62c280cfd0f09d7d2e168807ba7b`
+        `http://api.openweathermap.org/geo/1.0/zip?zip=${zipcode},US&appid=${import.meta.env.VITE_API_KEY}`
       );
       let lat = response.data.lat;
       let long = response.data.lon;
@@ -47,7 +49,7 @@ export const HomePage = () => {
       //   console.log(lat)
       //   console.log(long)
       let response_weather = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=imperial&appid=883d62c280cfd0f09d7d2e168807ba7b`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=imperial&appid=${import.meta.env.VITE_API_KEY}`
       );
       //   console.log(response_weather.data)
       //   console.log(response_weather.data.main.temp)
