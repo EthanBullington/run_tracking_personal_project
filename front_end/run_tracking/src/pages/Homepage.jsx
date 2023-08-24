@@ -189,7 +189,7 @@ export const HomePage = () => {
           {userRaces.length !== 0 ? (
             userRaces.map((race, index) => <UserRace key={index} race={race} />)
           ) : (
-            <p>{errorMsg ? errorMsg : "No races available."}</p>
+            <p>No races available.</p>
           )}
         </div>
       </div>
